@@ -37,17 +37,20 @@ This application allows users to browse a list of static products, add items to 
 ### Installation
 
 1. Clone the repository:
+
    ```bash
-   git clone <repository-url>
-   cd shop
+   git clone https://github.com/aslaii/kulay-shop.git
+   cd kulay-shop
    ```
 
 2. Install dependencies:
+
    ```bash
    pnpm install
    ```
 
 3. Start the development server:
+
    ```bash
    pnpm start
    ```
