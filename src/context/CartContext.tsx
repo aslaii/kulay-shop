@@ -6,6 +6,7 @@ interface CartContextType {
   cartCount: number;
   addToCart: (product: Product) => void;
   removeFromCart: (productId: string) => void;
+  updateQuantity: (productId: string, quantity: number) => void;
   subtotal: number;
   total: number;
   voucherCode: string;
@@ -38,6 +39,18 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setCartItems((prevItems) => prevItems.filter((item) => item.id !== productId));
   };
 
+  const updateQuantity = (productId: string, quantity: number) => {
+    if (quantity <= 0) {
+      removeFromCart(productId);
+      return;
+    }
+    setCartItems((prevItems) =>
+      prevItems.map((item) =>
+        item.id === productId ? { ...item, quantity } : item
+      )
+    );
+  };
+
   const subtotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
   const cartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
 
@@ -48,6 +61,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     cartCount,
     addToCart,
     removeFromCart,
+    updateQuantity,
     subtotal,
     total,
     voucherCode,

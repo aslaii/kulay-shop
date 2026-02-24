@@ -66,7 +66,7 @@ const CartScreen: React.FC = () => {
           itemLayoutAnimation={LinearTransition.duration(400)}
           data={cartItems}
           keyExtractor={(item) => item.id}
-          renderItem={({ item }) => <CartItem item={item} onRemove={removeFromCart} />}
+          renderItem={({ item }) => <CartItem item={item} />}
           contentContainerStyle={{ padding: 24, paddingBottom: 32 }}
           showsVerticalScrollIndicator={false}
           ListFooterComponent={
