@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState } from 'react';
-import { Product, CartItem } from '../types';
+import { Product, CartItem, Voucher } from '../types';
+import { vouchers } from '../data/vouchers';
 
 interface CartContextType {
   cartItems: CartItem[];
@@ -11,7 +12,7 @@ interface CartContextType {
   total: number;
   voucherCode: string;
   setVoucherCode: (code: string) => void;
-  isVoucherValid: boolean;
+  appliedVoucher: Voucher | null;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -20,8 +21,8 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [voucherCode, setVoucherCode] = useState('');
 
-  // Derived state: no need for useEffect or extra useState
-  const isVoucherValid = voucherCode === 'discount10';
+  // Derived state: find the voucher if it exists
+  const appliedVoucher = vouchers.find(v => v.code.toLowerCase() === voucherCode.toLowerCase()) || null;
 
   const addToCart = (product: Product) => {
     setCartItems((prevItems) => {
@@ -54,7 +55,17 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const subtotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
   const cartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
 
-  const total = isVoucherValid ? subtotal * 0.9 : subtotal;
+  const calculateTotal = () => {
+    if (!appliedVoucher) return subtotal;
+    
+    if (appliedVoucher.discountType === 'percentage') {
+      return subtotal * (1 - appliedVoucher.value);
+    } else {
+      return Math.max(0, subtotal - appliedVoucher.value);
+    }
+  };
+
+  const total = calculateTotal();
 
   const contextValue = {
     cartItems,
@@ -66,7 +77,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     total,
     voucherCode,
     setVoucherCode,
-    isVoucherValid,
+    appliedVoucher,
   };
 
   return <CartContext.Provider value={contextValue}>{children}</CartContext.Provider>;

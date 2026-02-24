@@ -20,7 +20,7 @@ const CartScreen: React.FC = () => {
     total, 
     voucherCode, 
     setVoucherCode, 
-    isVoucherValid,
+    appliedVoucher,
     removeFromCart 
   } = useCart();
   const router = useRouter();
@@ -74,12 +74,12 @@ const CartScreen: React.FC = () => {
               <PromoCodeSection 
                 voucherCode={voucherCode}
                 setVoucherCode={setVoucherCode}
-                isVoucherValid={isVoucherValid}
+                appliedVoucher={appliedVoucher}
               />
               <CartSummary 
                 subtotal={subtotal}
                 total={total}
-                isVoucherValid={isVoucherValid}
+                appliedVoucher={appliedVoucher}
                 onCheckout={handleCheckout}
               />
             </Animated.View>

@@ -3,6 +3,7 @@ import { View, Text, Pressable } from 'react-native';
 import { ChevronRight } from 'lucide-react-native';
 import { formatCurrency } from '../../utils/formatCurrency';
 import * as Haptics from 'expo-haptics';
+import { Voucher } from '../../types';
 import Animated, { 
   useSharedValue, 
   useAnimatedStyle, 
@@ -17,14 +18,14 @@ const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 interface CartSummaryProps {
   subtotal: number;
   total: number;
-  isVoucherValid: boolean;
+  appliedVoucher: Voucher | null;
   onCheckout: () => void;
 }
 
 const CartSummary: React.FC<CartSummaryProps> = ({ 
   subtotal, 
   total, 
-  isVoucherValid, 
+  appliedVoucher, 
   onCheckout 
 }) => {
   const scale = useSharedValue(1);
@@ -58,7 +59,7 @@ const CartSummary: React.FC<CartSummaryProps> = ({
         <Text className="text-gray-900 font-bold">{formatCurrency(subtotal)}</Text>
       </View>
       
-      {isVoucherValid && (
+      {appliedVoucher && (
         <Animated.View 
           entering={FadeIn} 
           exiting={FadeOut}
