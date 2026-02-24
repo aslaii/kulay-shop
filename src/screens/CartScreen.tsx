@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, FlatList, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, Text, KeyboardAvoidingView, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useCart } from '../context/CartContext';
 import CartItem from '../components/CartItem';
@@ -22,7 +22,6 @@ const CartScreen: React.FC = () => {
     voucherCode, 
     setVoucherCode, 
     appliedVoucher,
-    removeFromCart 
   } = useCart();
   const router = useRouter();
   const { t } = useTranslation();

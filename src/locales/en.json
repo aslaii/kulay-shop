@@ -16,12 +16,11 @@
     "title": "My Cart",
     "checkout_title": "Checkout",
     "empty_title": "Empty Cart",
-    "empty_description": "Your cart is currently empty. 
-Let's find some amazing products for you!",
+    "empty_description": "Your cart is currently empty. \nLet's find some amazing products for you!",
     "start_shopping": "Start Shopping",
     "promo_code": "Promo Code",
     "promo_placeholder": "Enter voucher code",
     "promo_applied": "Amazing! {{description}} applied ✨",
-    "promo_hint": "Try using "discount10""
+    "promo_hint": "Try using \"discount10\""
   }
 }
