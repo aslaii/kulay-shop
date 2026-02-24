@@ -4,6 +4,15 @@ import { CartItem as CartItemType } from '../types';
 import { formatCurrency } from '../utils/formatCurrency';
 import { Trash2 } from 'lucide-react-native';
 import * as Haptics from 'expo-haptics';
+import Animated, { 
+  useSharedValue, 
+  useAnimatedStyle, 
+  withSpring,
+  SlideOutRight,
+  LinearTransition
+} from 'react-native-reanimated';
+
+const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
 interface CartItemProps {
   item: CartItemType;
@@ -11,13 +20,37 @@ interface CartItemProps {
 }
 
 const CartItem: React.FC<CartItemProps> = ({ item, onRemove }) => {
+  const scale = useSharedValue(1);
+  const opacity = useSharedValue(1);
+
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      transform: [{ scale: scale.value }],
+      opacity: opacity.value,
+    };
+  });
+
   const handleRemove = () => {
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
     onRemove(item.id);
   };
 
+  const handlePressIn = () => {
+    scale.value = withSpring(0.8);
+    opacity.value = withSpring(0.6);
+  };
+
+  const handlePressOut = () => {
+    scale.value = withSpring(1);
+    opacity.value = withSpring(1);
+  };
+
   return (
-    <View className="flex-row items-center bg-white p-3 rounded-2xl border border-gray-100 mb-3 shadow-sm shadow-gray-100">
+    <Animated.View 
+      layout={LinearTransition.duration(400)}
+      exiting={SlideOutRight.duration(400)}
+      className="flex-row items-center bg-white p-3 rounded-2xl border border-gray-100 mb-3 shadow-sm shadow-gray-100"
+    >
       <Image 
         source={{ uri: item.image }} 
         className="w-20 h-20 rounded-xl bg-gray-50"
@@ -36,16 +69,17 @@ const CartItem: React.FC<CartItemProps> = ({ item, onRemove }) => {
         <Text className="text-base font-bold text-gray-900">
           {formatCurrency(item.price * item.quantity)}
         </Text>
-        <Pressable
+        <AnimatedPressable
           onPress={handleRemove}
-          testID={`remove-item-${item.id}`}
-          style={({ pressed }) => ({ opacity: pressed ? 0.5 : 1, transform: [{ scale: pressed ? 0.9 : 1 }] })}
+          onPressIn={handlePressIn}
+          onPressOut={handlePressOut}
+          style={animatedStyle}
           className="mt-2 p-1"
         >
           <Trash2 size={18} color="#EF4444" />
-        </Pressable>
+        </AnimatedPressable>
       </View>
-    </View>
+    </Animated.View>
   );
 };
 

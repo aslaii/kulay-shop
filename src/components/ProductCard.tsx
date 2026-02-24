@@ -1,9 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, Pressable, Image } from 'react-native';
 import { Product } from '../types';
 import { formatCurrency } from '../utils/formatCurrency';
-import { ShoppingBag } from 'lucide-react-native';
+import { ShoppingBag, Check } from 'lucide-react-native';
 import * as Haptics from 'expo-haptics';
+import Animated, { 
+  useSharedValue, 
+  useAnimatedStyle, 
+  withSpring, 
+  withSequence, 
+  withTiming,
+  interpolateColor
+} from 'react-native-reanimated';
+
+const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
 interface ProductCardProps {
   product: Product;
@@ -11,9 +21,51 @@ interface ProductCardProps {
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }) => {
+  const [added, setAdded] = useState(false);
+  const scale = useSharedValue(1);
+  const successValue = useSharedValue(0);
+
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      transform: [{ scale: scale.value }],
+      backgroundColor: interpolateColor(
+        successValue.value,
+        [0, 1],
+        ['#2563EB', '#16A34A'] // blue-600 to green-600
+      ),
+    };
+  });
+
   const handleAddToCart = () => {
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    if (added) return;
+
+    // Haptics
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+    
+    // Animation
+    scale.value = withSequence(
+      withSpring(0.9),
+      withSpring(1.05),
+      withSpring(1)
+    );
+    
+    successValue.value = withTiming(1, { duration: 200 });
+    setAdded(true);
     onAddToCart(product);
+
+    // Reset after delay
+    setTimeout(() => {
+      successValue.value = withTiming(0, { duration: 500 });
+      setAdded(false);
+    }, 2000);
+  };
+
+  const handlePressIn = () => {
+    scale.value = withSpring(0.95);
+  };
+
+  const handlePressOut = () => {
+    scale.value = withSpring(1);
   };
 
   return (
@@ -33,17 +85,25 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }) => {
             <Text className="text-base font-bold text-blue-600">{formatCurrency(product.price)}</Text>
           </View>
         </View>
-        <Pressable
+        <AnimatedPressable
           onPress={handleAddToCart}
-          style={({ pressed }) => ({ 
-            opacity: pressed ? 0.8 : 1, 
-            transform: [{ scale: pressed ? 0.98 : 1 }] 
-          })}
-          className="bg-blue-600 py-4 rounded-2xl mt-2 flex-row justify-center items-center gap-x-2 shadow-sm shadow-blue-200"
+          onPressIn={handlePressIn}
+          onPressOut={handlePressOut}
+          style={animatedStyle}
+          className="py-4 rounded-2xl mt-2 flex-row justify-center items-center gap-x-2 shadow-sm shadow-blue-200"
         >
-          <ShoppingBag size={20} color="white" />
-          <Text className="text-white font-bold text-base">Add to Cart</Text>
-        </Pressable>
+          {added ? (
+            <>
+              <Check size={20} color="white" />
+              <Text className="text-white font-bold text-base">Added!</Text>
+            </>
+          ) : (
+            <>
+              <ShoppingBag size={20} color="white" />
+              <Text className="text-white font-bold text-base">Add to Cart</Text>
+            </>
+          )}
+        </AnimatedPressable>
       </View>
     </View>
   );

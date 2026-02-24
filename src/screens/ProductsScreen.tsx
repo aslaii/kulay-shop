@@ -7,14 +7,36 @@ import { useCart } from '../context/CartContext';
 import { ShoppingCart } from 'lucide-react-native';
 import { useRouter } from 'expo-router';
 import * as Haptics from 'expo-haptics';
+import Animated, { 
+  useSharedValue, 
+  useAnimatedStyle, 
+  withSpring
+} from 'react-native-reanimated';
+
+const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
 const ProductsScreen: React.FC = () => {
   const { cartCount, addToCart } = useCart();
   const router = useRouter();
+  const scale = useSharedValue(1);
+
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      transform: [{ scale: scale.value }],
+    };
+  });
 
   const handleGoToCart = () => {
     Haptics.selectionAsync();
     router.push('/cart');
+  };
+
+  const handlePressIn = () => {
+    scale.value = withSpring(0.95);
+  };
+
+  const handlePressOut = () => {
+    scale.value = withSpring(1);
   };
 
   return (
@@ -25,13 +47,12 @@ const ProductsScreen: React.FC = () => {
             <Text className="text-4xl font-black text-gray-900 tracking-tighter">Shop</Text>
             <Text className="text-gray-500 font-medium">Curated for you</Text>
           </View>
-          <Pressable
+          <AnimatedPressable
             onPress={handleGoToCart}
+            onPressIn={handlePressIn}
+            onPressOut={handlePressOut}
+            style={animatedStyle}
             testID="cart-button"
-            style={({ pressed }) => ({ 
-              opacity: pressed ? 0.7 : 1, 
-              transform: [{ scale: pressed ? 0.95 : 1 }] 
-            })}
             className="bg-white p-4 rounded-3xl flex-row items-center shadow-xl shadow-gray-200 border border-gray-100"
           >
             <View className="relative">
@@ -42,7 +63,7 @@ const ProductsScreen: React.FC = () => {
                 </View>
               )}
             </View>
-          </Pressable>
+          </AnimatedPressable>
         </View>
 
         <FlatList

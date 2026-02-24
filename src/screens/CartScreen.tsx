@@ -10,6 +10,7 @@ import ScreenHeader from '../components/ScreenHeader';
 import { ShoppingCart } from 'lucide-react-native';
 import { useRouter } from 'expo-router';
 import * as Haptics from 'expo-haptics';
+import Animated, { LinearTransition } from 'react-native-reanimated';
 
 const CartScreen: React.FC = () => {
   const { 
@@ -61,14 +62,15 @@ const CartScreen: React.FC = () => {
       >
         <ScreenHeader title="My Cart" onBack={handleBack} rightElement={headerRight} />
 
-        <FlatList
+        <Animated.FlatList
+          itemLayoutAnimation={LinearTransition.duration(400)}
           data={cartItems}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => <CartItem item={item} onRemove={removeFromCart} />}
           contentContainerStyle={{ padding: 24, paddingBottom: 32 }}
           showsVerticalScrollIndicator={false}
           ListFooterComponent={
-            <View className="mt-6">
+            <Animated.View layout={LinearTransition.duration(400)} className="mt-6">
               <PromoCodeSection 
                 voucherCode={voucherCode}
                 setVoucherCode={setVoucherCode}
@@ -80,7 +82,7 @@ const CartScreen: React.FC = () => {
                 isVoucherValid={isVoucherValid}
                 onCheckout={handleCheckout}
               />
-            </View>
+            </Animated.View>
           }
         />
       </KeyboardAvoidingView>

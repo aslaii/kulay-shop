@@ -2,15 +2,38 @@ import React from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { ShoppingCart } from 'lucide-react-native';
 import * as Haptics from 'expo-haptics';
+import Animated, { 
+  useSharedValue, 
+  useAnimatedStyle, 
+  withSpring 
+} from 'react-native-reanimated';
+
+const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
 interface EmptyCartProps {
   onStartShopping: () => void;
 }
 
 const EmptyCart: React.FC<EmptyCartProps> = ({ onStartShopping }) => {
+  const scale = useSharedValue(1);
+
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      transform: [{ scale: scale.value }],
+    };
+  });
+
   const handlePress = () => {
-    Haptics.selectionAsync();
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     onStartShopping();
+  };
+
+  const handlePressIn = () => {
+    scale.value = withSpring(0.95);
+  };
+
+  const handlePressOut = () => {
+    scale.value = withSpring(1);
   };
 
   return (
@@ -22,16 +45,15 @@ const EmptyCart: React.FC<EmptyCartProps> = ({ onStartShopping }) => {
       <Text className="text-gray-500 text-center text-base font-medium mb-10 leading-6 px-4">
         {`Your cart is currently empty. \nLet's find some amazing products for you!`}
       </Text>
-      <Pressable
+      <AnimatedPressable
         onPress={handlePress}
-        style={({ pressed }) => ({ 
-          opacity: pressed ? 0.8 : 1, 
-          transform: [{ scale: pressed ? 0.95 : 1 }] 
-        })}
+        onPressIn={handlePressIn}
+        onPressOut={handlePressOut}
+        style={animatedStyle}
         className="bg-blue-600 px-10 py-4 rounded-2xl shadow-xl shadow-blue-200"
       >
         <Text className="text-white font-black text-lg">Start Shopping</Text>
-      </Pressable>
+      </AnimatedPressable>
     </View>
   );
 };
