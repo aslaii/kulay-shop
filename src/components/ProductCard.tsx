@@ -71,7 +71,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }) => {
   };
 
   return (
-    <View className="bg-white rounded-3xl shadow-sm border border-gray-100 mb-6 mx-1 overflow-hidden">
+    <View className="bg-surface rounded-card shadow-sm border border-gray-100 mb-6 mx-1 overflow-hidden">
       <Image 
         source={{ uri: product.image }} 
         className="w-full h-48 bg-gray-50"
@@ -83,8 +83,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }) => {
             <Text className="text-xl font-bold text-gray-800 tracking-tight">{product.productName}</Text>
             <Text className="text-sm text-gray-500 mt-1 leading-5" numberOfLines={2}>{product.description}</Text>
           </View>
-          <View className="bg-blue-50 px-3 py-1.5 rounded-full">
-            <Text className="text-base font-bold text-blue-600">{formatCurrency(product.price)}</Text>
+          <View className="bg-primary-light px-3 py-1.5 rounded-full">
+            <Text className="text-base font-bold text-primary">{formatCurrency(product.price)}</Text>
           </View>
         </View>
         <AnimatedPressable
@@ -92,7 +92,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }) => {
           onPressIn={handlePressIn}
           onPressOut={handlePressOut}
           style={animatedStyle}
-          className="py-4 rounded-2xl mt-2 flex-row justify-center items-center gap-x-2 shadow-sm shadow-blue-200"
+          className="py-4 rounded-section mt-2 flex-row justify-center items-center gap-x-2 shadow-sm shadow-primary-light"
         >
           {added ? (
             <>

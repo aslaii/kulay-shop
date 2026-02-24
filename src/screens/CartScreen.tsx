@@ -41,7 +41,7 @@ const CartScreen: React.FC = () => {
 
   if (cartItems.length === 0) {
     return (
-      <SafeAreaView className="flex-1 bg-white">
+      <SafeAreaView className="flex-1 bg-surface">
         <ScreenHeader title={t('cart.checkout_title')} onBack={handleBack} />
         <EmptyCart onStartShopping={handleStartShopping} />
       </SafeAreaView>
@@ -49,14 +49,14 @@ const CartScreen: React.FC = () => {
   }
 
   const headerRight = (
-    <View className="bg-blue-600 px-3 py-1.5 rounded-2xl flex-row items-center gap-x-1.5 shadow-sm shadow-blue-200">
+    <View className="bg-primary px-3 py-1.5 rounded-section flex-row items-center gap-x-1.5 shadow-sm shadow-primary-light">
       <ShoppingCart size={14} color="white" strokeWidth={2.5} />
       <Text className="text-white font-black text-xs">{cartCount}</Text>
     </View>
   );
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-50">
+    <SafeAreaView className="flex-1 bg-background">
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         className="flex-1"

@@ -39,9 +39,9 @@ const EmptyCart: React.FC<EmptyCartProps> = ({ onStartShopping }) => {
   };
 
   return (
-    <View className="flex-1 justify-center items-center p-8 bg-white">
-      <View className="bg-blue-50 p-10 rounded-full mb-8">
-        <ShoppingCart size={64} color="#3B82F6" strokeWidth={1.5} />
+    <View className="flex-1 justify-center items-center p-8 bg-surface">
+      <View className="bg-primary-light p-10 rounded-full mb-8">
+        <ShoppingCart size={64} color="#2563EB" strokeWidth={1.5} />
       </View>
       <Text className="text-3xl font-black text-gray-900 mb-3 tracking-tighter">{t('cart.empty_title')}</Text>
       <Text className="text-gray-500 text-center text-base font-medium mb-10 leading-6 px-4">
@@ -52,7 +52,7 @@ const EmptyCart: React.FC<EmptyCartProps> = ({ onStartShopping }) => {
         onPressIn={handlePressIn}
         onPressOut={handlePressOut}
         style={animatedStyle}
-        className="bg-blue-600 px-10 py-4 rounded-2xl shadow-xl shadow-blue-200"
+        className="bg-primary px-10 py-4 rounded-section shadow-xl shadow-primary-light"
       >
         <Text className="text-white font-black text-lg">{t('cart.start_shopping')}</Text>
       </AnimatedPressable>

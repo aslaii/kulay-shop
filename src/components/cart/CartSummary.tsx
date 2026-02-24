@@ -67,8 +67,8 @@ const CartSummary: React.FC<CartSummaryProps> = ({
           exiting={FadeOut}
           className="flex-row justify-between mt-3"
         >
-          <Text className="text-green-600 font-medium">{t('common.promo_discount')}</Text>
-          <Text className="text-green-600 font-bold">-{formatCurrency(subtotal - total)}</Text>
+          <Text className="text-accent font-medium">{t('common.promo_discount')}</Text>
+          <Text className="text-accent font-bold">-{formatCurrency(subtotal - total)}</Text>
         </Animated.View>
       )}
       
@@ -82,7 +82,7 @@ const CartSummary: React.FC<CartSummaryProps> = ({
           onPressIn={handlePressIn}
           onPressOut={handlePressOut}
           style={animatedStyle}
-          className="bg-blue-600 p-5 rounded-2xl shadow-lg shadow-blue-200 flex-row items-center gap-x-2"
+          className="bg-primary p-5 rounded-section shadow-lg shadow-primary-light flex-row items-center gap-x-2"
         >
           <Text className="text-white font-bold text-lg">{t('common.pay')}</Text>
           <ChevronRight size={20} color="white" />

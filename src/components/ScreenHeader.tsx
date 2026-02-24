@@ -33,14 +33,14 @@ const ScreenHeader: React.FC<ScreenHeaderProps> = ({ title, onBack, rightElement
   };
 
   return (
-    <View className="px-6 py-4 flex-row items-center justify-between bg-white border-b border-gray-100">
+    <View className="px-6 py-4 flex-row items-center justify-between bg-surface border-b border-gray-100">
       {onBack ? (
         <AnimatedPressable 
           onPress={onBack} 
           onPressIn={handlePressIn}
           onPressOut={handlePressOut}
           style={animatedStyle}
-          className="p-3 rounded-2xl border border-gray-100 bg-gray-50"
+          className="p-3 rounded-section border border-gray-100 bg-gray-50"
         >
           <ArrowLeft size={22} color="#1F2937" />
         </AnimatedPressable>

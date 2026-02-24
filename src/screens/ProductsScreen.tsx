@@ -42,7 +42,7 @@ const ProductsScreen: React.FC = () => {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-50">
+    <SafeAreaView className="flex-1 bg-background">
       <View className="flex-1 px-4">
         <View className="flex-row justify-between items-center pt-8 pb-4">
           <View>
@@ -55,12 +55,12 @@ const ProductsScreen: React.FC = () => {
             onPressOut={handlePressOut}
             style={animatedStyle}
             testID="cart-button"
-            className="bg-white p-4 rounded-3xl flex-row items-center shadow-xl shadow-gray-200 border border-gray-100"
+            className="bg-surface p-4 rounded-card flex-row items-center shadow-xl shadow-gray-200 border border-gray-100"
           >
             <View className="relative">
               <ShoppingCart size={24} color="#1F2937" />
               {cartCount > 0 && (
-                <View className="absolute -top-2.5 -right-2.5 bg-blue-600 min-w-[20px] h-[20px] rounded-full justify-center items-center px-1 border-2 border-white">
+                <View className="absolute -top-2.5 -right-2.5 bg-primary min-w-[20px] h-[20px] rounded-full justify-center items-center px-1 border-2 border-white">
                   <Text className="text-white text-[10px] font-black">{cartCount}</Text>
                 </View>
               )}
