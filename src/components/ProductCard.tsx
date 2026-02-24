@@ -4,6 +4,7 @@ import { Product } from '../types';
 import { formatCurrency } from '../utils/formatCurrency';
 import { ShoppingBag, Check } from 'lucide-react-native';
 import * as Haptics from 'expo-haptics';
+import { useTranslation } from 'react-i18next';
 import Animated, { 
   useSharedValue, 
   useAnimatedStyle, 
@@ -22,6 +23,7 @@ interface ProductCardProps {
 
 const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }) => {
   const [added, setAdded] = useState(false);
+  const { t } = useTranslation();
   const scale = useSharedValue(1);
   const successValue = useSharedValue(0);
 
@@ -95,12 +97,12 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }) => {
           {added ? (
             <>
               <Check size={20} color="white" />
-              <Text className="text-white font-bold text-base">Added!</Text>
+              <Text className="text-white font-bold text-base">{t('common.added')}</Text>
             </>
           ) : (
             <>
               <ShoppingBag size={20} color="white" />
-              <Text className="text-white font-bold text-base">Add to Cart</Text>
+              <Text className="text-white font-bold text-base">{t('common.add_to_cart')}</Text>
             </>
           )}
         </AnimatedPressable>

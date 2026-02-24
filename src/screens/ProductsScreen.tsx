@@ -7,6 +7,7 @@ import { useCart } from '../context/CartContext';
 import { ShoppingCart } from 'lucide-react-native';
 import { useRouter } from 'expo-router';
 import * as Haptics from 'expo-haptics';
+import { useTranslation } from 'react-i18next';
 import Animated, { 
   useSharedValue, 
   useAnimatedStyle, 
@@ -18,6 +19,7 @@ const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 const ProductsScreen: React.FC = () => {
   const { cartCount, addToCart } = useCart();
   const router = useRouter();
+  const { t } = useTranslation();
   const scale = useSharedValue(1);
 
   const animatedStyle = useAnimatedStyle(() => {
@@ -44,8 +46,8 @@ const ProductsScreen: React.FC = () => {
       <View className="flex-1 px-4">
         <View className="flex-row justify-between items-center pt-8 pb-4">
           <View>
-            <Text className="text-4xl font-black text-gray-900 tracking-tighter">Shop</Text>
-            <Text className="text-gray-500 font-medium">Curated for you</Text>
+            <Text className="text-4xl font-black text-gray-900 tracking-tighter">{t('products.title')}</Text>
+            <Text className="text-gray-500 font-medium">{t('products.subtitle')}</Text>
           </View>
           <AnimatedPressable
             onPress={handleGoToCart}

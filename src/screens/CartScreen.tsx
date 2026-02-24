@@ -10,6 +10,7 @@ import ScreenHeader from '../components/ScreenHeader';
 import { ShoppingCart } from 'lucide-react-native';
 import { useRouter } from 'expo-router';
 import * as Haptics from 'expo-haptics';
+import { useTranslation } from 'react-i18next';
 import Animated, { LinearTransition } from 'react-native-reanimated';
 
 const CartScreen: React.FC = () => {
@@ -24,6 +25,7 @@ const CartScreen: React.FC = () => {
     removeFromCart 
   } = useCart();
   const router = useRouter();
+  const { t } = useTranslation();
 
   const handleBack = () => {
     Haptics.selectionAsync();
@@ -41,7 +43,7 @@ const CartScreen: React.FC = () => {
   if (cartItems.length === 0) {
     return (
       <SafeAreaView className="flex-1 bg-white">
-        <ScreenHeader title="Checkout" onBack={handleBack} />
+        <ScreenHeader title={t('cart.checkout_title')} onBack={handleBack} />
         <EmptyCart onStartShopping={handleStartShopping} />
       </SafeAreaView>
     );
@@ -60,7 +62,7 @@ const CartScreen: React.FC = () => {
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         className="flex-1"
       >
-        <ScreenHeader title="My Cart" onBack={handleBack} rightElement={headerRight} />
+        <ScreenHeader title={t('cart.title')} onBack={handleBack} rightElement={headerRight} />
 
         <Animated.FlatList
           itemLayoutAnimation={LinearTransition.duration(400)}

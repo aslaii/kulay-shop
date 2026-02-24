@@ -1,0 +1,27 @@
+{
+  "common": {
+    "add_to_cart": "Add to Cart",
+    "added": "Added!",
+    "pay": "Pay",
+    "subtotal": "Subtotal",
+    "total_amount": "Total Amount",
+    "promo_discount": "Promo Discount",
+    "items": "items"
+  },
+  "products": {
+    "title": "Shop",
+    "subtitle": "Curated for you"
+  },
+  "cart": {
+    "title": "My Cart",
+    "checkout_title": "Checkout",
+    "empty_title": "Empty Cart",
+    "empty_description": "Your cart is currently empty. 
+Let's find some amazing products for you!",
+    "start_shopping": "Start Shopping",
+    "promo_code": "Promo Code",
+    "promo_placeholder": "Enter voucher code",
+    "promo_applied": "Amazing! {{description}} applied ✨",
+    "promo_hint": "Try using "discount10""
+  }
+}

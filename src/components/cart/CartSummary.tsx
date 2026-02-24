@@ -3,6 +3,7 @@ import { View, Text, Pressable } from 'react-native';
 import { ChevronRight } from 'lucide-react-native';
 import { formatCurrency } from '../../utils/formatCurrency';
 import * as Haptics from 'expo-haptics';
+import { useTranslation } from 'react-i18next';
 import { Voucher } from '../../types';
 import Animated, { 
   useSharedValue, 
@@ -28,6 +29,7 @@ const CartSummary: React.FC<CartSummaryProps> = ({
   appliedVoucher, 
   onCheckout 
 }) => {
+  const { t } = useTranslation();
   const scale = useSharedValue(1);
 
   const animatedStyle = useAnimatedStyle(() => {
@@ -55,7 +57,7 @@ const CartSummary: React.FC<CartSummaryProps> = ({
       className="mt-8 pt-6 border-t border-gray-100 space-y-4"
     >
       <View className="flex-row justify-between">
-        <Text className="text-gray-500 font-medium">Subtotal</Text>
+        <Text className="text-gray-500 font-medium">{t('common.subtotal')}</Text>
         <Text className="text-gray-900 font-bold">{formatCurrency(subtotal)}</Text>
       </View>
       
@@ -65,14 +67,14 @@ const CartSummary: React.FC<CartSummaryProps> = ({
           exiting={FadeOut}
           className="flex-row justify-between mt-3"
         >
-          <Text className="text-green-600 font-medium">Promo Discount</Text>
+          <Text className="text-green-600 font-medium">{t('common.promo_discount')}</Text>
           <Text className="text-green-600 font-bold">-{formatCurrency(subtotal - total)}</Text>
         </Animated.View>
       )}
       
       <View className="flex-row justify-between items-center mt-6 pt-6 border-t border-gray-100">
         <View>
-          <Text className="text-gray-400 text-xs font-bold uppercase tracking-widest mb-1">Total Amount</Text>
+          <Text className="text-gray-400 text-xs font-bold uppercase tracking-widest mb-1">{t('common.total_amount')}</Text>
           <Text className="text-gray-900 text-3xl font-black tracking-tighter">{formatCurrency(total)}</Text>
         </View>
         <AnimatedPressable
@@ -82,7 +84,7 @@ const CartSummary: React.FC<CartSummaryProps> = ({
           style={animatedStyle}
           className="bg-blue-600 p-5 rounded-2xl shadow-lg shadow-blue-200 flex-row items-center gap-x-2"
         >
-          <Text className="text-white font-bold text-lg">Pay</Text>
+          <Text className="text-white font-bold text-lg">{t('common.pay')}</Text>
           <ChevronRight size={20} color="white" />
         </AnimatedPressable>
       </View>

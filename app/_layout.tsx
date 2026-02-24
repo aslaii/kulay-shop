@@ -2,6 +2,7 @@ import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import 'react-native-reanimated';
 import '../global.css';
+import './src/i18n';
 
 import { CartProvider } from '@/src/context/CartContext';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
