@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, KeyboardAvoidingView, Platform } from 'react-native';
+import { Text, KeyboardAvoidingView, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useCart } from '../context/CartContext';
 import CartItem from '../components/CartItem';
@@ -11,7 +11,7 @@ import { ShoppingCart } from 'lucide-react-native';
 import { useRouter } from 'expo-router';
 import * as Haptics from 'expo-haptics';
 import { useTranslation } from 'react-i18next';
-import Animated, { LinearTransition } from 'react-native-reanimated';
+import Animated, { FadeIn, FadeOut, LinearTransition } from 'react-native-reanimated';
 
 const CartScreen: React.FC = () => {
   const { 
@@ -39,21 +39,18 @@ const CartScreen: React.FC = () => {
     router.replace('/');
   };
 
-  if (cartItems.length === 0) {
-    return (
-      <SafeAreaView className="flex-1 bg-surface">
-        <ScreenHeader title={t('cart.checkout_title')} onBack={handleBack} />
-        <EmptyCart onStartShopping={handleStartShopping} />
-      </SafeAreaView>
-    );
-  }
+  const headerTitle = cartItems.length === 0 ? t('cart.checkout_title') : t('cart.title');
 
-  const headerRight = (
-    <View className="bg-primary px-3 py-1.5 rounded-section flex-row items-center gap-x-1.5 shadow-sm shadow-primary-light">
+  const headerRight = cartItems.length > 0 ? (
+    <Animated.View 
+      entering={FadeIn} 
+      exiting={FadeOut}
+      className="bg-primary px-3 py-1.5 rounded-section flex-row items-center gap-x-1.5 shadow-sm shadow-primary-light"
+    >
       <ShoppingCart size={14} color="white" strokeWidth={2.5} />
       <Text className="text-white font-black text-xs">{cartCount}</Text>
-    </View>
-  );
+    </Animated.View>
+  ) : null;
 
   return (
     <SafeAreaView className="flex-1 bg-background">
@@ -61,31 +58,49 @@ const CartScreen: React.FC = () => {
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         className="flex-1"
       >
-        <ScreenHeader title={t('cart.title')} onBack={handleBack} rightElement={headerRight} />
+        <ScreenHeader title={headerTitle} onBack={handleBack} rightElement={headerRight} />
 
-        <Animated.FlatList
-          itemLayoutAnimation={LinearTransition.duration(400)}
-          data={cartItems}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => <CartItem item={item} />}
-          contentContainerStyle={{ padding: 24, paddingBottom: 32 }}
-          showsVerticalScrollIndicator={false}
-          ListFooterComponent={
-            <Animated.View layout={LinearTransition.duration(400)} className="mt-6">
-              <PromoCodeSection 
-                voucherCode={voucherCode}
-                setVoucherCode={setVoucherCode}
-                appliedVoucher={appliedVoucher}
-              />
-              <CartSummary 
-                subtotal={subtotal}
-                total={total}
-                appliedVoucher={appliedVoucher}
-                onCheckout={handleCheckout}
-              />
-            </Animated.View>
-          }
-        />
+        {cartItems.length === 0 ? (
+          <Animated.View 
+            key="empty-cart"
+            entering={FadeIn.duration(400)} 
+            exiting={FadeOut.duration(400)}
+            className="flex-1"
+          >
+            <EmptyCart onStartShopping={handleStartShopping} />
+          </Animated.View>
+        ) : (
+          <Animated.View 
+            key="cart-list"
+            entering={FadeIn.duration(400)} 
+            exiting={FadeOut.duration(400)}
+            className="flex-1"
+          >
+            <Animated.FlatList
+              itemLayoutAnimation={LinearTransition.duration(400)}
+              data={cartItems}
+              keyExtractor={(item) => item.id}
+              renderItem={({ item }) => <CartItem item={item} />}
+              contentContainerStyle={{ padding: 24, paddingBottom: 32 }}
+              showsVerticalScrollIndicator={false}
+              ListFooterComponent={
+                <Animated.View layout={LinearTransition.duration(400)} className="mt-6">
+                  <PromoCodeSection 
+                    voucherCode={voucherCode}
+                    setVoucherCode={setVoucherCode}
+                    appliedVoucher={appliedVoucher}
+                  />
+                  <CartSummary 
+                    subtotal={subtotal}
+                    total={total}
+                    appliedVoucher={appliedVoucher}
+                    onCheckout={handleCheckout}
+                  />
+                </Animated.View>
+              }
+            />
+          </Animated.View>
+        )}
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
