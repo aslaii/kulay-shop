@@ -1,50 +1,64 @@
-# Welcome to your Expo app 👋
+# Shopping Cart App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A React Native application demonstrating a product catalog and shopping cart system with real-time updates and voucher support.
 
-## Get started
+## Project Overview
 
-1. Install dependencies
+This application allows users to browse a list of static products, add items to a cart, manage quantities, and apply discount vouchers. It is built with Expo and utilizes modern React Native development practices.
 
+### Features
+
+- Static product list with detailed information.
+- Real-time cart management (Add, Remove, Update Quantity).
+- Cart summary with subtotal and total calculations.
+- Dynamic voucher system (e.g., "discount10").
+- High-performance animations and haptic feedback.
+- Localization support using i18next.
+- Global theme management using Tailwind CSS (NativeWind).
+
+### Technical Stack
+
+- React Native / Expo
+- TypeScript
+- Expo Router (File-based routing)
+- NativeWind (Tailwind CSS for React Native)
+- React Native Reanimated (Smooth UI transitions)
+- Expo Haptics (Tactile feedback)
+- i18next & Expo Localization
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js
+- pnpm (recommended) or npm
+- Expo Go app on your mobile device or an emulator
+
+### Installation
+
+1. Clone the repository:
    ```bash
-   npm install
+   git clone <repository-url>
+   cd shop
    ```
 
-2. Start the app
-
+2. Install dependencies:
    ```bash
-   npx expo start
+   pnpm install
    ```
 
-In the output, you'll find options to open the app in a
+3. Start the development server:
+   ```bash
+   pnpm start
+   ```
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+### Scripts
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+- `pnpm start`: Start the Expo development server.
+- `pnpm test`: Run linting and type checking.
+- `pnpm lint`: Run ESLint.
+- `pnpm typecheck`: Run TypeScript compiler checks.
 
-## Get a fresh project
+## Development Standards
 
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+The project follows strict linting and type-safety rules. Use `pnpm test` before committing changes to ensure code quality.
